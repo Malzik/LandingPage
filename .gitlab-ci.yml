@@ -3,33 +3,33 @@ variables:
   ROBOT_USER: $REGISTRY_USER
 stages:
   - docker
-  - harbor
   - deploy-server
 
 build-front:
   stage: docker
-  script:
-    - docker build -t reg.amoyel.fr/aheroin/landingpage-front ./front
-  only:
-    - master
-
-build-api:
-  stage: docker
-  script:
-    - docker build -t reg.amoyel.fr/aheroin/landingpage-api ./api
-  only:
-    - master
-
-push:
-  stage: harbor
   variables:
     ROBOT_USER: $REGISTRY_USER
   before_script:
     - echo "registry user is :" $ROBOT_USER
   script:
     - echo "$REGISTRY_PASSWORD" | docker login reg.amoyel.fr -u "$ROBOT_USER" --password-stdin
+    - docker build -t reg.amoyel.fr/aheroin/landingpage-front ./front
     - docker push reg.amoyel.fr/aheroin/landingpage-front
+  only:
+    - master
+
+build-api:
+  stage: docker
+  variables:
+    ROBOT_USER: $REGISTRY_USER
+  before_script:
+    - echo "registry user is :" $ROBOT_USER
+  script:
+    - echo "$REGISTRY_PASSWORD" | docker login reg.amoyel.fr -u "$ROBOT_USER" --password-stdin
+    - docker build -t reg.amoyel.fr/aheroin/landingpage-api ./api
     - docker push reg.amoyel.fr/aheroin/landingpage-api
+  only:
+    - master
 
 docker-deploy:
   stage: deploy-server
