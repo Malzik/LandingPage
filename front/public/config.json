@@ -1,6 +1,6 @@
 {
   "edt_url": "https://edtmobiliteng.wigorservices.net//WebPsDyn.aspx?action=posEDTBEECOME&serverid=C&Tel=alexis.heroin&date=",
   "new_edt_url": "https://edt.mathiasughetto.fr/api/week/alexis.heroin/",
-  "api_backend": "traquenard-api/api",
+  "api_backend": "/api",
   "url_backend": "http://localhost:3001/api"
 }
