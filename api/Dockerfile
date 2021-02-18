@@ -12,5 +12,5 @@ RUN npm install
 
 EXPOSE 3001
 
-CMD ["node", "./app.js"]
+CMD ["node", "./bin/www"]
 
