@@ -1,0 +1,10 @@
+.Template {
+  height: 100%;
+}
+
+.Template > :nth-child(3) {
+  padding-top: 45px;
+  padding-bottom: 45px;
+  width: 100%;
+  min-height: 90vh;
+}

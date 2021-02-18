@@ -1,0 +1,19 @@
+body {
+  padding: 0;
+  margin: 0;
+  background-image: radial-gradient(circle, #343a40, #404e5c, #4d627a, #5b779a, #6c8cba, #6c8cba, #6c8cba, #6c8cba, #5b779a, #4d627a, #404e5c, #343a40);
+  height: 100vh;
+}
+
+.c-white {
+  color: white;
+}
+
+.bg-grey {
+  background-color: #2f3136;
+}
+
+/*all page*/
+* {
+  box-sizing: border-box;
+}

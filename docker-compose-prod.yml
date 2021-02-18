@@ -1,0 +1,28 @@
+version: '3'
+services:
+  front:
+    image: reg.amoyel.fr/aheroin/landingpage-front:latest
+    container_name: landingpage-front
+    ports:
+      - "82:80"
+    links:
+      - api
+    restart: always
+
+  api:
+    image: reg.amoyel.fr/aheroin/landingpage-api:latest
+    container_name: landingpage-api
+    ports:
+      - "5000:5000"
+    restart: always
+
+  redis:
+    image: bitnami/redis:latest
+    container_name: landingpage-redis
+    ports:
+      - "7001:6379"
+    restart: always
+    volumes:
+      - "./volumes/redis:/bitnami/redis/data"
+    environment:
+      - ALLOW_EMPTY_PASSWORD=yes

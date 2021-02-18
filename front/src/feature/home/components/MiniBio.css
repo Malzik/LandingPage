@@ -1,0 +1,15 @@
+.mini-bio {
+    border-radius: 4px;
+    padding: 8px;
+    width: 100%;
+}
+
+.mini-bio-title {
+    border-bottom: solid;
+    text-align: left;
+    padding: 8px;
+}
+
+.mini-bio-content {
+    padding-left: 8px;
+}

@@ -1,0 +1,11 @@
+.Tag {
+  z-index: 1;
+  opacity: 0.8;
+  cursor: pointer;
+  font-size: 1.2em;
+}
+
+.Tag:hover {
+  z-index: 2;
+  opacity: 1;
+}

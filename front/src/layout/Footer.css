@@ -1,0 +1,16 @@
+.footer {
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    padding: .5rem;
+    text-align: left;
+    color: #676767;
+    font-size: .85rem;
+    transition: background-color .3s cubic-bezier(.165,.84,.44,1);
+    background-color: #343a40;
+    box-shadow: 0 2px 15px 0 rgba(0,0,0,0.4);
+}
+.has-text-centered {
+    text-align: center;
+}
