@@ -1,175 +1,143 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 
 import './Edt.css';
-import * as edtActions from './store/actions';
-import {DailyEdt} from "../home/components/DailyEdt";
-import moment from "moment";
-import {Icon} from "../../components/Icon/Icon";
-import {Button} from "react-bootstrap";
-import Select from 'react-select'
+import {DailyEdt}      from "../home/components/DailyEdt";
+import moment          from "moment";
+import {Icon}          from "../../components/Icon/Icon";
+import {Button}        from "react-bootstrap";
+import Select                                             from 'react-select'
+import { fetchEdtWithDate, refreshEdt, setEdt } from "./store/actions";
+import { store }                                          from "../../service/store/store";
+import { edtApi }      from "./service/edt";
 
-class EdtComponent extends React.Component {
+export const Edt = () => {
+    const [promotion] = useState([
+        { value: "B1", label: "B1"},
+        { value: "B2", label: "B2"},
+        { value: "B3", label: "B3"},
+        { value: "I1", label: "I1", groups: [
+                { value: "G1", label: "G1" },
+                { value: "G2", label: "G2" },
+                { value: "INFRA", label: "INFRA" }
+            ]
+        },
+        { value: "I2", label: "I2"}
+    ])
+    const [selectedValue, setSelectedValue] = useState({ value: "I1", label: "I1", groups: [
+            { value: "G1", label: "G1" },
+            { value: "G2", label: "G2" },
+            { value: "INFRA", label: "INFRA" }
+        ]})
+    const [selectedGroup, setSelectedGroup] = useState({ value: "G1", label: "G1" })
+    const [selectedValueIndex, setSelectedValueIndex] = useState(3)
+    const [, setSelectedGroupIndex] = useState(3)
+    const [edt, setNewEdt] = useState([])
+    const [date, setDate] = useState(moment())
 
-    constructor(props, context) {
-        super(props, context);
-
-        this.state = {
-            date: moment(),
-            promotion: [
-                { value: "B1", label: "B1"},
-                { value: "B2", label: "B2"},
-                { value: "B3", label: "B3"},
-                { value: "I1", label: "I1", groups: [
-                        { value: "G1", label: "G1" },
-                        { value: "G2", label: "G2" },
-                        { value: "INFRA", label: "INFRA" }
-                    ]
-                },
-                { value: "I2", label: "I2"}
-            ],
-            selectedValue: { value: "I1", label: "I1", groups: [
-                    { value: "G1", label: "G1" },
-                    { value: "G2", label: "G2" },
-                    { value: "INFRA", label: "INFRA" }
-                ] },
-            selectedGroup: { value: "G1", label: "G1" },
-            selectedValueIndex: 3,
-            selectedGroupIndex: 3,
+    useEffect(() => {
+        const edt = store.getState().edt.edt;
+        if (edt.length === 0) {
+            getEdt(selectedValue.value, selectedGroup.value)
+        } else {
+            setNewEdt(edt)
         }
+    }, [selectedValue.value, selectedGroup.value])
 
-        this.prevWeek = this.prevWeek.bind(this);
-        this.nextWeek = this.nextWeek.bind(this);
-        this.refreshEdt = this.refreshEdt.bind(this);
-        this.onPromotionChange = this.onPromotionChange.bind(this);
-        this.onGroupChange = this.onGroupChange.bind(this);
+    const getEdt = (selectedValue, selectedGroup) => {
+        edtApi
+            .getEdt(selectedValue, selectedGroup)
+            .then(edt => {
+                store.dispatch(setEdt(edt.data))
+                setNewEdt(edt.data)
+            })
     }
 
-    componentDidMount() {
-        const {fetchEdt} = this.props;
-        const {edt} = this.props.edt;
-        const {selectedValue, selectedGroup} = this.state;
-
-        if (edt.length === 0) fetchEdt(selectedValue.value, selectedGroup.value);
+    const getEdtWithDate = (selectedValue, selectedGroup, date) => {
+        edtApi
+            .getEdtWithDate(selectedValue, selectedGroup, date)
+            .then(edt => {
+                store.dispatch(setEdt(edt.data))
+                setNewEdt(edt.data)
+            })
     }
 
-    prevWeek() {
-        const {date, selectedValue, selectedGroup} = this.state;
-        const prevWeek = moment(date).startOf("week")
+    const prevWeek = () => {
+        const prevWeekDate = moment(date).startOf("week")
             .add(1, "day")
             .add(-1, "week");
 
-        this.props.fetchEdtWithDate(selectedValue.value, selectedGroup.value, prevWeek);
+        getEdtWithDate(selectedValue.value, selectedGroup.value, prevWeekDate)
 
-        this.setState({
-            date: prevWeek
-        });
+        setDate(prevWeekDate)
     }
 
-    nextWeek() {
-        const {date, selectedValue, selectedGroup} = this.state;
-        const nextWeek = moment(date)
-            .startOf("week")
+    const nextWeek = () => {
+        const nextWeekDate = moment(date).startOf("week")
             .add(1, "day")
             .add(1, "week");
 
-        this.props.fetchEdtWithDate(selectedValue.value, selectedGroup.value, nextWeek);
-        this.setState({
-            date: nextWeek
+        getEdtWithDate(selectedValue.value, selectedGroup.value, nextWeekDate)
+
+        setDate(nextWeekDate)
+    }
+
+    const refreshEdtButton = () => {
+        edtApi
+            .refreshEdt(selectedValue.value, selectedGroup.value, date)
+            .then(edt => {
+                store.dispatch(setEdt(edt.data))
+                setNewEdt(edt.data)
+            })
+    }
+
+    const onPromotionChange = (event) => {
+        promotion.forEach((promote, index) => {
+            if (promote.value === event.value) {
+                setSelectedValue(event)
+                setSelectedValueIndex(index)
+            }
         })
     }
 
-    refreshEdt() {
-        const {date, selectedValue, selectedGroup} = this.state;
-
-        this.props.refreshEdt(selectedValue.value, selectedGroup.value, date)
-    }
-
-    onPromotionChange(event) {
-        this.state.promotion.map((promote, index) =>
-            promote.value === event.value && this.setState({
-                selectedValue: event,
-                selectedValueIndex: index
-            })
-        )
-    }
-
-    onGroupChange(event) {
-        const { date, selectedValue } = this.state;
-
-        selectedValue.groups.map((group, index) => {
-            console.log(group.value, event.value, group.value === event.value)
+    const onGroupChange = (event) => {
+        selectedValue.groups.forEach((group, index) => {
                 if(group.value === event.value) {
-                    this.setState({
-                        selectedGroup: event,
-                        selectedGroupIndex: index
-                    })
+                    setSelectedGroup(event)
+                    setSelectedGroupIndex(index)
+                    getEdt(selectedValue.value, event.value)
                 }
             }
         )
-
-        this.props.fetchEdt(selectedValue.value, event.value, date);
     }
 
-    render() {
-        const {edt} = this.props.edt;
-        const { promotion, selectedValue, selectedGroup, selectedValueIndex } = this.state;
-
-        return (
-            <div className="home-container pt-0 pt-md-5">
-                <div className={"container mb-1"}>
-                    <div className="row">
-                        <div className="col-1">
-                            <Button onClick={this.refreshEdt} className={"btn btn-secondary"}><Icon icon="refresh" /></Button>
-                        </div>
-                        <div className="col-3">
-                            <Select options={promotion} defaultValue={selectedValue} onChange={this.onPromotionChange}/>
-                        </div>
-                        <div className="col-3">
-                            {promotion[selectedValueIndex].groups !== undefined && (
-                                <Select options={promotion[selectedValueIndex].groups} defaultValue={selectedGroup} onChange={this.onGroupChange}/>
-                            )}
-                        </div>
-                    </div>
+    return (
+        <div className="edt-container" style={{height: "90vh"}}>
+            <div className="options">
+                <div className="refresh">
+                    <Button onClick={refreshEdtButton} className={"refresh-button"}><Icon icon="refresh" /></Button>
                 </div>
-                <div className={"row pl-sm-0 pr-sm-0 pl-3 pr-3 m-0"}>
-                    <div className="col-1 arrow" onClick={this.prevWeek}>
-                        <Icon icon={"angle-left"} style={{fontSize: "3rem"}}/>
-                    </div>
-                    {edt.map(day => (
-                        <div key={day.date} className={"col-lg-2 mt-5 mt-md-0 p-0 pr-lg-2 pl-lg-2"}>
-                            <DailyEdt day={day}/>
-                        </div>
-                    ))}
-                    <div className="col-1 arrow" onClick={this.nextWeek}>
-                        <Icon icon={"angle-right"} style={{fontSize: "3rem"}}/>
-                    </div>
+                <div className="select">
+                    <Select options={promotion} defaultValue={selectedValue} onChange={onPromotionChange}/>
+                </div>
+                <div className="select">
+                    {promotion[selectedValueIndex].groups !== undefined && (
+                        <Select options={promotion[selectedValueIndex].groups} defaultValue={selectedGroup} onChange={onGroupChange}/>
+                    )}
                 </div>
             </div>
-        );
-    }
-}
-
-EdtComponent.propTypes = {
-    fetchEdt: PropTypes.func.isRequired,
-};
-const mapStateToProps = state => ({
-    edt: state.edt,
-});
-
-const mapDispatchToProps = dispatch =>
-    bindActionCreators(
-        {
-            ...edtActions,
-        },
-        dispatch
+            <div className={"edt"}>
+                <div className="arrow arrow-left" onClick={prevWeek}>
+                    <Icon icon={"angle-left"} style={{fontSize: "3rem"}}/>
+                </div>
+                <div className={"schedule"}>
+                    {edt.map((day, index) => (
+                        <DailyEdt day={day} key={index}/>
+                    ))}
+                </div>
+                <div className="arrow arrow-right" onClick={nextWeek}>
+                    <Icon icon={"angle-right"} style={{fontSize: "3rem"}}/>
+                </div>
+            </div>
+        </div>
     );
-
-const Edt = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(EdtComponent);
-
-export { Edt, EdtComponent };
+}

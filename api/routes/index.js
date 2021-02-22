@@ -26,10 +26,10 @@ exports.get_week = function(req, res) {
   let {classe, groupe, date} = req.params;
 
   if(date === undefined) {
-    date = moment().startOf('week').add(1, 'day').format('D-M-YYYY');
+    date = moment().startOf('week').add(1, 'day').format('DD-MM-YYYY');
   }
 
-  const logDate = moment().format("DD/M/YYYY-H:m:ss");
+  const logDate = moment().format("DD/MM/YYYY-H:m:ss");
 
   const name = getClass(classe, groupe);
 
@@ -55,9 +55,8 @@ exports.refresh = function (req, res) {
 
   const name = getClass(classe, groupe);
 
-  const logDate = moment().format("DD/M/YYYY-H:m:ss");
+  const logDate = moment().format("DD/MM/YYYY-H:m:ss");
   client.exists(`${name}:${date}`, function(err, reply) {
-    console.log(err ,name, date)
     if (reply === 1) {
       console.log(`${logDate} - From api: ${name}:${date}`)
       getEdtFromApi(name, date).then(data => {

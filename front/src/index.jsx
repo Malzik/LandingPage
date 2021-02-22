@@ -4,18 +4,19 @@ import * as moment from 'moment';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 import './index.css';
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
-import {Template} from './layout/Template';
-import {store} from './service/store/store';
-import {Provider} from "react-redux";
-import {initConfig} from "./service/config/config";
-import {Home} from "./feature/home/Home";
-import {Edt} from "./feature/edt/Edt";
-import {Goat} from "./feature/goat/Goat";
+import {Template}       from './layout/Template';
+import {store}          from './service/store/store';
+import {Provider}       from "react-redux";
+import {initConfig}     from "./service/config/config";
+import {Home}           from "./feature/home/Home";
+import {Edt}            from "./feature/edt/Edt";
+import {Goat}           from "./feature/goat/Goat";
+import { interceptors } from "./service/loading/loading.interceptors";
 
 moment.locale('fr');
-
+interceptors.load();
 
 initConfig()
     .then(() => {

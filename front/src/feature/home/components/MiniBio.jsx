@@ -9,7 +9,7 @@ class MiniBioComponent extends React.Component {
     render() {
         return(
             <div className={"mini-bio c-white bg-grey  mt-5 mt-md-0"}>
-                <h3 className={"mini-bio-title"}>Résumé CV</h3>
+                <div className={"mini-bio-title"}><span>Résumé CV</span></div>
                 <p className={"mini-bio-content"}>
                     Bonjour, je suis un fan de css, j’adore le design et tout tu vois
                 </p>

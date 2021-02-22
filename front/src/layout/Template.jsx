@@ -4,6 +4,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import {ToastContainer} from 'react-toastify';
 import {Header} from "./Header";
 import {Footer} from "./Footer";
+import { Loader } from '../feature/loader/components/Loader';
 
 export class Template extends React.Component {
 
@@ -33,6 +34,7 @@ export class Template extends React.Component {
                 <Header/>
                 <ToastContainer/>
                 {children}
+                <Loader />
                 <Footer/>
             </div>
         );

@@ -6,33 +6,16 @@
     border-radius: 4px;
     font-family: 'Roboto Condensed', sans-serif;
     background-color: #444D54;
+    margin-bottom: 4px;
+    font-size: 1rem;
 }
 
 .lesson:hover {
     background-color: #798a97;
 }
 
-.empty {
-    background-color: #2f3136 !important;
-}
-
-.meal {
-    background-color: #05827f;
-    text-align: center;
-}
-
-.meal:hover {
-    background-color: #09bcb8 !important;
-}
-
-.hour {
-    height: 60px;
-}
-
-.two-hours {
-    height: 120px;
-}
-
-.four-hours {
-    height: 255px;
+.lesson-header {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #dee2e6;
 }

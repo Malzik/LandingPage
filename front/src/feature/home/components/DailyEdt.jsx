@@ -28,50 +28,30 @@ class DailyEdtComponent extends React.Component {
         return moment(date).locale('fr').format('dddd ll').toUpperCase();
     }
 
-    renderDay(courses) {
-        const items = [];
-        if(courses[0].debut === "11:00") {
-            items.push(<Lesson lesson={null} key={items.length} />);
-        }
-        if(courses[0].debut === "14:00") {
-            items.push(<Lesson lesson={null} key={items.length}/>);
-            items.push(<Lesson lesson={null} key={items.length}/>);
-            items.push(<Lesson lesson={{salle: "empty"}} key={items.length}/>);
-        }
-        courses.map((hour) => {
-            const debut = moment(hour.debut, 'HH');
-            const fin = moment(hour.fin, 'HH');
-            if (fin.diff(debut, 'hours') === 4) {
-                items.push(<Lesson lesson={hour} className={"four-hours"} key={items.length}/>)
-            } else {
-                items.push(<Lesson lesson={hour} className={"two-hours"} key={items.length}/>)
-            }
-        });
-        if(courses[courses.length - 1].fin === "13:00") {
-            items.push(<Lesson lesson={{salle: "empty"}} key={items.length}/>);
-            items.push(<Lesson lesson={null} key={items.length}/>);
-            items.push(<Lesson lesson={null} key={items.length}/>);
-        }
-        if(courses[courses.length - 1].fin === "16:00") {
-            items.push(<Lesson lesson={null} key={items.length}/>);
-        }
+    predictStartEnd (course) {
+        let debutHour = parseInt(course.debut.split(':')[0])
+        let debutMin = parseInt(course.debut.split(':')[1])
+        let finHour = parseInt(course.fin.split(':')[0])
+        let finMin = parseInt(course.fin.split(':')[1])
 
-        return items;
+        let debut = (debutHour - 8) * 2 + (debutMin === 15 ? 2 : debutMin === 30 ? 3 : debutMin === 45 ? 4 : 1)
+        let fin = (finHour - 8) * 2 + (finMin === 15 ? 2 : finMin === 30 ? 3 : finMin === 45 ? 4 : 1)
+
+        return {start: debut, end: fin}
     }
 
     render() {
         const { date, courses } = this.props.day;
 
         return(
-            <div className={"dailyEdtContainer bg-grey"}>
-                <div className={"dailyEdtTitle c-white h3"} style={{fontSize: "1.4em"}}>{this.formatDate(date)}</div>
-                <div className={'dailyEdtGrid d-flex justify-content-center flex-column'}>
-                    {courses !== undefined && courses.length > 0 ? (
-                        this.renderDay(courses)
+            <div >
+                <div className={"dailyEdtTitle c-white h3"} style={{fontSize: "1.4em", gridRow: "1/3", marginBottom: "6px"}}>{this.formatDate(date)}</div>
+                {
+                    courses !== undefined && courses.length > 0 ? (
+                        courses.map((course, index) => <Lesson lesson={course} grid={this.predictStartEnd(course)}  key={index}/>)
                     ) : (
                         <div className={"dailyEdtEmpty c-white"}>Pas de cours aujourd'hui</div>)
-                    }
-                </div>
+                }
             </div>
         )
     }
