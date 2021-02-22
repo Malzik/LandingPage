@@ -1,84 +1,58 @@
-import React from 'react';
-import {connect} from 'react-redux';
-import {bindActionCreators} from 'redux';
-import PropTypes from 'prop-types';
+import React, { useEffect, useState } from 'react';
 
 import './Home.css';
-import {DailyEdt} from "./components/DailyEdt";
-import * as edtActions from '../edt/store/actions';
-import {MiniBio} from "./components/MiniBio";
-import {Links} from "./components/Links";
+import {DailyEdt}           from "./components/DailyEdt";
+import {MiniBio}            from "./components/MiniBio";
+import {Links}              from "./components/Links";
+import { edtApi }           from "../edt/service/edt";
+import { store }            from "../../service/store/store";
+import { setEdt }           from "../edt/store/actions";
 
-class HomeComponent extends React.Component {
-    constructor(props, context) {
-        super(props, context);
+export const Home = () => {
+    const [currentDay, setCurrentDay] = useState({})
 
-        this.state = {
-            edt: [],
-            currentDay: {}
+    useEffect(() => {
+        const edt = store.getState().edt;
+        if (edt.edt.length === 0) {
+            getEdt("I1", "G1")
+        } else {
+            setCurrentDay(store.getState().edt.currentDay)
         }
+    })
+
+    const getEdt = (selectedValue, selectedGroup) => {
+        edtApi
+            .getEdt(selectedValue, selectedGroup)
+            .then(edt => {
+                store.dispatch(setEdt(edt.data))
+                setCurrentDay(store.getState().edt.currentDay)
+            })
     }
 
-    componentDidMount() {
-        const { fetchEdt } = this.props;
-        fetchEdt("I1", "G1");
-    }
-
-    renderDailyEdt() {
-        const { currentDay } = this.props;
-
+    const renderDailyEdt = () => {
         return <DailyEdt day={currentDay} />
     }
 
-    render() {
-        return (
-            <div className="home-container container">
-                <div className="row">
-                    <div className="col-lg-4">
-                        {this.renderDailyEdt()}
-                    </div>
-                    <div className={'d-flex flex-column justify-content-start ml-lg-5 w-100 col'}>
-                        <MiniBio />
-                        <div className={'row justify-content-between mt-5'} style={{height: "100%"}}>
-                            <div className="col-lg-6">
-                                <Links />
-                            </div>
-                            <div className={"col-lg-5 mt-5 mt-md-0"}>
-                                <div style={{ borderRadius: "4px", padding: 8, backgroundColor: "#2f3136", height: "100%"}}>
-                                    <h3 style={{borderBottom: "solid", textAlign: "center", padding: "8px", backgroundColor: "#2f3136", color: "white"}}>Espace vide</h3>
-                                    <p style={{ color: "white", padding: "8px"}}>
-                                        Ceci est un espace vide
-                                    </p>
-                                </div>
-                            </div>
+    return (
+        <div style={{marginLeft: "auto"}} className={"home-center"}>
+            <div className="home-container">
+                <div style={{backgroundColor: "#2f3136", padding: "5px", borderRadius: "4px"}} className={"home-daily-edt"}>
+                    {renderDailyEdt()}
+                </div>
+                <div />
+                <div className={'home-right-panel'}>
+                    <MiniBio />
+                    <div className={'home-bottom-panel'} style={{height: "60%"}}>
+                        <Links />
+                        <div className={"void"}>
+                            <div className={"void-title"}><span>Espace vide</span></div>
+                            <p style={{ color: "white", padding: "8px"}}>
+                                Ceci est un espace vide
+                            </p>
                         </div>
                     </div>
                 </div>
             </div>
-        );
-    }
-}
-
-HomeComponent.propTypes = {
-    fetchEdt: PropTypes.func.isRequired,
-};
-
-const mapStateToProps = state => ({
-    edt: state.edt,
-    currentDay: state.edt.currentDay,
-});
-
-const mapDispatchToProps = dispatch =>
-    bindActionCreators(
-        {
-            ...edtActions,
-        },
-        dispatch
+        </div>
     );
-
-const Home = connect(
-    mapStateToProps,
-    mapDispatchToProps
-)(HomeComponent);
-
-export { Home, HomeComponent };
+}

@@ -1,15 +1,24 @@
 .dailyEdtGrid {
     display: grid;
-    grid-gap: 1rem;
-    grid-template-columns:  300px;
-    grid-template-rows: repeat(5, 125px);
-    justify-content: center;
+    grid-template-columns: 100px 1fr 100px;
+    grid-template-rows: 1fr;
+}
+
+@media screen and (min-width: 1260px)
+{
+    .dailyEdtGrid {
+        display: grid;
+        grid-template-columns: 1fr;
+        grid-template-rows: repeat(2, 2fr) 1fr repeat(2, 2fr);
+        grid-gap: 1px 1px;
+    }
 }
 
 .dailyEdtContainer {
     border-radius: 4px;
     padding: 8px;
     height: auto;
+    margin-bottom: 5px;
 }
 
 .dailyEdtTitle {

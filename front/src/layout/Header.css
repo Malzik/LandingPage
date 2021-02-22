@@ -3,6 +3,45 @@
     flex-wrap: wrap;
     align-items: center;
     justify-content:flex-start;
+    width: 75%;
+}
+
+.navbar {
+    display: flex;
+    align-items: center;
+    position: relative;
+    padding: .5rem 1rem;
+    background-color: #343a40;
+    flex-flow: row nowrap;
+    justify-content: flex-start;
+}
+
+.navbar-title {
+    display: inline-block;
+    padding-top: .3125rem;
+    padding-bottom: .3125rem;
+    margin-right: 1rem;
+    font-size: 1.25rem;
+    line-height: inherit;
+    white-space: nowrap;
+    color: #fff;
+}
+
+.navbar-nav {
+    display: flex;
+    flex-direction: row;
+    list-style: none;
+}
+
+.navbar-nav > a {
+    color: #007bff;
+    text-decoration: none;
+    background-color: transparent;
+}
+
+.navbar-link {
+    margin-left: .5rem;
+    margin-right: .5rem;
 }
 
 .navbar-shadow {

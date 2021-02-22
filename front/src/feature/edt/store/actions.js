@@ -22,6 +22,10 @@ const fetchEdt = (classe, groupe) => dispatch => {
         })
         .catch(toastAxiosError(`Récuperation de l'emploi du temps`));
 }
+const setEdt = edt => ({
+    type: 'SET_EDT',
+    edt
+});
 const fetchEdtWithDate = (classe, groupe, date) => dispatch => {
     edtApi
         .getEdtWithDate(classe, groupe, date)
@@ -46,4 +50,4 @@ const refreshEdt = (classe, groupe, date) => dispatch => {
         })
         .catch(toastAxiosError(`Récuperation de l'emploi du temps`));
 }
-export {fetchEdt, fetchEdtWithDate, refreshEdt}
+export {fetchEdt, setEdt, fetchEdtWithDate, refreshEdt}

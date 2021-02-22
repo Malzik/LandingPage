@@ -9,7 +9,7 @@ class LinksComponent extends React.Component {
     render() {
         return(
             <div className={"links c-white bg-grey"}>
-                <h3 className={"links-title"}>Liens</h3>
+                <div className={"links-title"}><span>Liens</span></div>
                 <p className={"links-content"}>
                     Ceci est un lien <br/>
                     Ceci est un lien <br/>
