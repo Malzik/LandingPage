@@ -110,6 +110,8 @@ export const Edt = () => {
         )
     }
 
+    console.log(window.innerHeight)
+
     return (
         <div className="edt-container" style={{height: "90vh"}}>
             <div className="options">
