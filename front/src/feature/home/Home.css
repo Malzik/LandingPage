@@ -35,7 +35,7 @@
 .home-daily-edt > div,
 .overlay {
   display: grid;
-  grid-template-rows: repeat(24, 1fr);
+  grid-template-rows: repeat(48, 15px);
 }
 
 .void {
@@ -63,7 +63,7 @@
     margin-bottom: 25px;
     height: 100%;
     display: grid;
-    grid-template-columns: 35% 5% auto;
+    grid-template-columns: 30% 5% auto;
     grid-template-rows: 1fr;
     width: 70%;
   }

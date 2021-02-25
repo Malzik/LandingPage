@@ -10,9 +10,9 @@ class LoaderComponent extends React.Component {
     if (loading === 0) return null;
 
     return (
-      <div className="loader">
-        <div className="lds-hourglass" />
-      </div>
+        <div className="loader">
+            <img  className="lds-hourglass" src={"loader.svg"} alt="loader"/>
+        </div>
     );
   }
 }

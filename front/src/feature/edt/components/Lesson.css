@@ -1,5 +1,5 @@
 .lesson {
-    padding: 15px;
+    padding: 15px 15px 10px 15px;
     cursor: default;
     overflow-y: auto;
     color: white;
@@ -8,6 +8,8 @@
     background-color: #444D54;
     margin-bottom: 4px;
     font-size: 1rem;
+    display: flex;
+    flex-direction: column;
 }
 
 .lesson:hover {
@@ -18,4 +20,8 @@
     display: flex;
     justify-content: space-between;
     border-bottom: 1px solid #dee2e6;
+}
+
+.lesson-teacher {
+    margin-top: auto;
 }
