@@ -1,18 +1,13 @@
 image: docker:stable-git
-variables:
-  ROBOT_USER: $REGISTRY_USER
+
 stages:
   - docker
   - deploy-server
 
 build-front:
   stage: docker
-  variables:
-    ROBOT_USER: $REGISTRY_USER
-  before_script:
-    - echo "registry user is :" $ROBOT_USER
   script:
-    - echo "$REGISTRY_PASSWORD" | docker login reg.amoyel.fr -u "$ROBOT_USER" --password-stdin
+    - echo "$REGISTRY_PASSWORD" | docker login reg.amoyel.fr -u "$REGISTRY_USER" --password-stdin
     - docker build -t reg.amoyel.fr/aheroin/landingpage-front ./front
     - docker push reg.amoyel.fr/aheroin/landingpage-front
   only:
@@ -20,12 +15,8 @@ build-front:
 
 build-api:
   stage: docker
-  variables:
-    ROBOT_USER: $REGISTRY_USER
-  before_script:
-    - echo "registry user is :" $ROBOT_USER
   script:
-    - echo "$REGISTRY_PASSWORD" | docker login reg.amoyel.fr -u "$ROBOT_USER" --password-stdin
+    - echo "$REGISTRY_PASSWORD" | docker login reg.amoyel.fr -u "$REGISTRY_USER" --password-stdin
     - docker build -t reg.amoyel.fr/aheroin/landingpage-api ./api
     - docker push reg.amoyel.fr/aheroin/landingpage-api
   only:
