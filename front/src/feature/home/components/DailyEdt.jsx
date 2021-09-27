@@ -34,8 +34,14 @@ class DailyEdtComponent extends React.Component {
         let finHour = parseInt(course.fin.split(':')[0])
         let finMin = parseInt(course.fin.split(':')[1])
 
-        let debut = (debutHour - 8) * 4 + (debutMin === 15 ? 2 : debutMin === 30 ? 3 : debutMin === 45 ? 4 : 1)
-        let fin = (finHour - 8) * 4 + (finMin === 15 ? 2 : finMin === 30 ? 3 : finMin === 45 ? 4 : 1)
+        let debut = (debutHour === 8 ? 1 : debutHour - 7) * 3 + (debutMin === 15 ? 2 : debutMin === 30 ? 3 : debutMin === 45 ? 4 : 1)
+        let fin = (finHour - 7) * 3 + (finMin === 15 ? 2 : finMin === 30 ? 3 : finMin === 45 ? 4 : 1)
+
+        if (finHour - debutHour === 2) {
+            fin = debut + 5
+        } else {
+            fin = debut + 3
+        }
 
         return {start: debut, end: fin}
     }
@@ -45,7 +51,7 @@ class DailyEdtComponent extends React.Component {
 
         return(
             <div className={"dailyEdt"}>
-                <div className={"dailyEdtTitle c-white h3"} style={{fontSize: "1.4em", gridRow: "1/5", marginBottom: "6px"}}>{this.formatDate(date)}</div>
+                <div className={"dailyEdtTitle c-white h3"} style={{fontSize: "1.4em", gridRow: "1/4", marginBottom: "6px"}}>{this.formatDate(date)}</div>
                 {
                     courses !== undefined && courses.length > 0 ? (
                         courses.map((course, index) => <Lesson lesson={course} grid={this.predictStartEnd(course)}  key={index}/>)
