@@ -30,7 +30,6 @@
 .dailyEdt, .overlay {
   display: grid;
   grid-template-rows: repeat(12, minmax(13px, 1fr));
-  overflow-y: scroll;
 }
 
 .void {

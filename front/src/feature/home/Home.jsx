@@ -36,7 +36,7 @@ export const Home = () => {
     return (
         <div style={{marginLeft: "auto"}} className={"home-center"}>
             <div className="home-container">
-                <div style={{backgroundColor: "#2f3136", padding: "5px", borderRadius: "4px"}} className={"home-daily-edt"}>
+                <div style={{backgroundColor: "#2f3136", padding: "5px", borderRadius: "4px", overflowY: "scroll"}} className={"home-daily-edt"}>
                     {renderDailyEdt()}
                 </div>
                 <div />
