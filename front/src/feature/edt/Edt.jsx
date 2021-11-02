@@ -15,22 +15,22 @@ export const Edt = () => {
         { value: "B1", label: "B1"},
         { value: "B2", label: "B2"},
         { value: "B3", label: "B3"},
-        { value: "I1", label: "I1", groups: [
+        { value: "I1", label: "I1"},
+        { value: "I2", label: "I2", groups: [
                 { value: "G1", label: "G1" },
                 { value: "G2", label: "G2" },
                 { value: "INFRA", label: "INFRA" }
             ]
-        },
-        { value: "I2", label: "I2"}
+        }
     ])
-    const [selectedValue, setSelectedValue] = useState({ value: "I1", label: "I1", groups: [
+    const [selectedValue, setSelectedValue] = useState({ value: "I2", label: "I2", groups: [
             { value: "G1", label: "G1" },
             { value: "G2", label: "G2" },
             { value: "INFRA", label: "INFRA" }
         ]})
     const [selectedGroup, setSelectedGroup] = useState({ value: "G1", label: "G1" })
-    const [selectedValueIndex, setSelectedValueIndex] = useState(3)
-    const [, setSelectedGroupIndex] = useState(3)
+    const [selectedValueIndex, setSelectedValueIndex] = useState(4)
+    const [, setSelectedGroupIndex] = useState(4)
     const [edt, setNewEdt] = useState([])
     const [date, setDate] = useState(moment())
 
@@ -110,8 +110,6 @@ export const Edt = () => {
         )
     }
 
-    console.log(window.innerHeight)
-
     return (
         <div className="edt-container" style={{height: "90vh"}}>
             <div className="options">
@@ -133,7 +131,7 @@ export const Edt = () => {
                 </div>
                 <div className={"schedule"}>
                     {edt.map((day, index) => (
-                        <DailyEdt day={day} key={index}/>
+                            <DailyEdt day={day} key={index}/>
                     ))}
                 </div>
                 <div className="arrow arrow-right" onClick={nextWeek}>

@@ -5,6 +5,8 @@ exports.getClass = (classe, groupe) => {
         case "B3":
             break;
         case "I1":
+            break;
+        case "I2":
             switch (groupe) {
                 case "G1":
                     return "alexis.heroin";
@@ -13,7 +15,6 @@ exports.getClass = (classe, groupe) => {
                 case "INFRA":
                     return "alan.amoyel";
             }
-        case "I2":
             break;
         default:
             return "alexis.heroin"
