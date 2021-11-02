@@ -14,7 +14,7 @@ export const Home = () => {
     useEffect(() => {
         const edt = store.getState().edt;
         if (edt.edt.length === 0) {
-            getEdt("I1", "G1")
+            getEdt("I2", "G1")
         } else {
             setCurrentDay(store.getState().edt.currentDay)
         }
