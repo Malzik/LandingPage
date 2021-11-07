@@ -2,8 +2,8 @@ import React from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {faAngleLeft, faAngleRight, faCalendar, faHome, faRedo} from "@fortawesome/free-solid-svg-icons";
 
-class Icon extends React.Component {
-  static makeIcon(iconName) {
+export const Icon = ({style, icon, className}) => {
+  const makeIcon = iconName => {
     let icon;
     switch (iconName) {
       case 'calendar':
@@ -24,17 +24,10 @@ class Icon extends React.Component {
     return icon;
   }
 
-  render() {
-    const { style, icon, className } = this.props;
-    const completeStyle = {
-      ...style,
-    };
-    return (
-      <span style={completeStyle} className={className}>
-        <FontAwesomeIcon icon={Icon.makeIcon(icon)} />
+  return (
+      <span style={style} className={className}>
+        <FontAwesomeIcon icon={makeIcon(icon)} />
       </span>
-    );
-  }
-}
+  )
 
-export { Icon };
+}

@@ -6,19 +6,18 @@ import {Header} from "./Header";
 import {Footer} from "./Footer";
 import { Loader } from '../feature/loader/components/Loader';
 
-export class Template extends React.Component {
-
-    phrase = "";
-    prank = (event) => {
-        this.phrase += event.key
-        if (this.phrase.includes("chevre")) {
+export const Template = ({children}) => {
+    let phrase = "";
+    const prank = event => {
+        phrase += event.key
+        if (phrase.includes("chevre")) {
             alert('Copié')
-            this.copyToClipboard()
-            this.phrase = "";
+            copyToClipboard()
+            phrase = "";
         }
     }
 
-    copyToClipboard = () => {
+    const copyToClipboard = () => {
         const platform = window.navigator.platform
         const windowsPlatforms = ['Win32', 'Win64', 'Windows', 'WinCE']
         const textField = document.createElement('textarea')
@@ -33,16 +32,13 @@ export class Template extends React.Component {
         textField.remove()
     }
 
-    render() {
-        const {children} = this.props;
-        return (
-            <div className="Template" onKeyDown={this.prank} tabIndex="0">
-                <Header/>
-                <ToastContainer/>
-                {children}
-                <Loader />
-                <Footer/>
-            </div>
-        );
-    }
+    return (
+        <div className="Template" onKeyDown={prank} tabIndex="0">
+            <Header/>
+            <ToastContainer/>
+            {children}
+            <Loader/>
+            <Footer/>
+        </div>
+    );
 }

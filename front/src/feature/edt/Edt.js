@@ -6,7 +6,7 @@ import moment          from "moment";
 import {Icon}          from "../../components/Icon/Icon";
 import {Button}        from "react-bootstrap";
 import Select                                             from 'react-select'
-import { fetchEdtWithDate, refreshEdt, setEdt } from "./store/actions";
+import { setEdt } from "./store/actions";
 import { store }                                          from "../../service/store/store";
 import { edtApi }      from "./service/edt";
 

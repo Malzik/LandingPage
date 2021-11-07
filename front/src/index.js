@@ -4,7 +4,6 @@ import * as moment from 'moment';
 import {BrowserRouter, Route, Switch} from 'react-router-dom';
 
 import './index.css';
-// import 'bootstrap/dist/css/bootstrap.min.css';
 
 import {Template}       from './layout/Template';
 import {store}          from './service/store/store';
