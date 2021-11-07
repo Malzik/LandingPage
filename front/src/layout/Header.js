@@ -23,7 +23,7 @@ export const Header = () => {
                 <span className={"navbar-title"}>Alexis HEROIN</span>
                 <div className={"navbar-nav"}>
                     {links.map(link => (
-                        <NavLink to={link.url}>
+                        <NavLink to={link.url} key={link.title}>
                         <span className={"navbar-link"}>
                             <Icon icon={link.icon} style={{marginLeft: "2px", marginRight: "4px"}} />
                             {link.title}
